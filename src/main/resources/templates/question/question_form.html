@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Create a Question</h1>
+<form th:action="@{/questions/create}" th:object="${question}" method="post">
+
+    <button type="button" id="addQuestion">Add Question</button>
+    <br>
+    <input type="submit" value="Create Question"/>
+</form>
+<script>
+    var questionCount = 1; // Số lượng câu hỏi ban đầu
+
+    // Xử lý sự kiện khi nhấn nút "Add Question"
+    $("#addQuestion").click(function () {
+        // Tạo một câu hỏi mới
+        var newQuestion = `
+            <div class="form-inline question" id="question${questionCount}">
+                <label class="m-3">Question:</label>
+                <input type="text" class="form-control w-25" name="questions[${questionCount}].content" maxlength="255" />
+            </div>
+        `;
+
+        // Thêm câu hỏi mới vào phần container
+        $("#questionContainer").append(newQuestion);
+
+        // Tạo các trường nhập dữ liệu cho câu trả lời của câu hỏi mới
+        for (var i = 0; i < 4; i++) {
+            var newAnswer = `
+                <div class="form-inline answer" id="answer${questionCount}${i}">
+                    <label class="m-3">Answer:</label>
+                    <input type="text" class="form-control w-25" name="questions[${questionCount}].answers[${i}].content" maxlength="255" />
+                </div>
+            `;
+            $("#questionContainer").append(newAnswer);
+        }
+
+        questionCount++; // Tăng số lượng câu hỏi
+    });
+</script>
+</body>
+</html>
